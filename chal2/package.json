@@ -1,0 +1,15 @@
+{
+  "name": "graphql-ctf",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^1.3.0",
+    "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.3.0",
+    "graphql-disable-introspection": "^1.2.0"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
