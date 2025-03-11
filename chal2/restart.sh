@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo docker stop graphdata1
-sudo docker remove graphdata1
-sudo docker build -t graphdata1 .
-sudo docker run --name graphdata1 -d -p 4000:4000 graphdata1
+sudo docker stop graphdata2
+sudo docker remove graphdata2
+sudo docker build -t graphdata2 .
+sudo docker run --name graphdata1 -d -p 4001:4001 graphdata2

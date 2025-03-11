@@ -1,61 +1,58 @@
 const express = require("express");
-const { graphqlHTTP } = require("express-graphql");
 const path = require("path");
-const { buildSchema, GraphQLSchema, specifiedRules } = require("graphql");
-const axios = require("axios");
-const { NoSchemaIntrospectionCustomRule } = require("graphql");
+const cookieParser = require("cookie-parser");
+const { graphqlHTTP } = require("express-graphql");
+const { buildSchema } = require("graphql");
 
+const app = express();
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+app.use(express.urlencoded({ extended: true })); // Handle form submissions
 
 const schema = buildSchema(`
   type Query {
-    secretQuery: String
+    checkStatus: String
+  }
+  type Mutation {
+    revealFlag: String
   }
 `);
 
 const root = {
-  secretQuery: () => "RS{PR0B3_WA$_$UCC3$$FUL}"
+  checkStatus: (args, req) => {
+    return req.cookies.auth ? "Access Granted" : "Unauthorized";
+  },
+  revealFlag: (args, req) => {
+    if (req.cookies.auth === "admin") {
+      return "CTF{CSRF_PWNED_THE_ALIENS}";
+    }
+    throw new Error("Unauthorized");
+  }
 };
 
-const app = express();
+// Fake login (sets a cookie)
+app.post("/login", (req, res) => {
+  res.cookie("auth", "admin", { httpOnly: true });
+  res.send("Logged in as Admin. Now try making a request!");
+});
 
-app.use(express.static(path.join(__dirname, "public")));
+// Logout (clear cookie)
+app.get("/logout", (req, res) => {
+  res.clearCookie("auth");
+  res.send("Logged out.");
+});
 
+// Vulnerable GraphQL endpoint (NO CSRF PROTECTION!)
 app.use(
   "/graphql",
-  graphqlHTTP({
+  graphqlHTTP((req) => ({
     schema: schema,
     rootValue: root,
-    graphiql: false, // Enable GraphiQL for testing
-    validationRules: [...specifiedRules, NoSchemaIntrospectionCustomRule]
-  })
+    graphiql: false,
+    context: req,
+  }))
 );
 
-// Serve index.html as default page
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.get("/healthcheck", async (req, res) => {
-  const GRAPHQL_URL = "http://localhost:4000/graphql";
-  const QUERY = `{ secretQuery }`;
-
-  try {
-    const response = await axios.post(GRAPHQL_URL, {
-      query: QUERY
-    });
-
-    // Check if the response contains the expected flag
-    const expectedFlag = "CTF{GraphQL_Introspection_Win}";
-    if (response.data.data.secretQuery === expectedFlag) {
-      return res.status(200).send("successful");
-    } else {
-      return res.status(500).send("unsuccessful");
-    }
-  } catch (error) {
-    return res.status(500).send("unsuccessful");
-  }
-});
-
-app.listen(4000, () => {
-  console.log("GraphQL CTF Challenge running at http://localhost:4000/graphql");
+app.listen(4001, () => {
+  console.log("CSRF Challenge running at http://localhost:4000");
 });
