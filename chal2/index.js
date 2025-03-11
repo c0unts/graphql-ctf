@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true })); // Handle form submissions
 const schema = buildSchema(`
   type Query {
     checkStatus: String
-  }
+  },
   type Mutation {
     revealFlag: String
   }
@@ -24,7 +24,7 @@ const root = {
   },
   revealFlag: (args, req) => {
     if (req.cookies.auth === "admin") {
-      return "CTF{CSRF_PWNED_THE_ALIENS}";
+      return "RS{F0RGE_THIS_C00KIE_ALI3NS!}";
     }
     throw new Error("Unauthorized");
   }
@@ -49,7 +49,7 @@ app.use(
     schema: schema,
     rootValue: root,
     graphiql: false,
-    context: req,
+    context: req
   }))
 );
 
