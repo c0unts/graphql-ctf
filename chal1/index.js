@@ -1,3 +1,4 @@
+const PORT = process.env.PORT || 4000;
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const path = require("path");
@@ -56,6 +57,5 @@ app.get("/healthcheck", async (req, res) => {
   }
 });
 
-app.listen(4000, () => {
-  console.log("GraphQL CTF Challenge running at http://localhost:4000/graphql");
+app.listen(PORT, () => {
 });
