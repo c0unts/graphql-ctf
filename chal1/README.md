@@ -10,4 +10,4 @@ You are presented with a website
 - Use a tool that obtais the schema even if the introspection is disabled, e.g. [Clairvoyance](https://github.com/nikitastupin/clairvoyance)
 - Obtain the schema using Clairvoyance tool with `clairvoyance url:4000/graphql -o schema.json`
 - Look through `schema.json` and see that there is a query name for `secretQuery`
-- Make a POST request using cURL with `curl -X POST url:port/graphql -H "Content-Type: application/json" -d '{"query": "{ secretQuery }"}'`
+- Make a POST request using cURL with `curl -X POST url:port/graphql -H "Content-Type: application/json" -d '{"query": "{ secretQuery }"}'` which should return `{"data":{"secretQuery":"RS{PR0B3_WA$_$UCC3$$FUL}"}}`
