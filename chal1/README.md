@@ -1,6 +1,7 @@
 # Graph Map 1
 ## Presentation
 You are presented with a website
+
 ![](image.png)
 ## Solving
 "graph query languauge" should hint that the website has some kind of GraphQL running.
