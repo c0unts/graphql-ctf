@@ -1,3 +1,4 @@
+const PORT = process.env.PORT || 4001
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -36,13 +37,7 @@ app.post("/login", (req, res) => {
   res.send("Logged in as Admin. Now try making a request!");
 });
 
-// Logout (clear cookie)
-app.get("/logout", (req, res) => {
-  res.clearCookie("auth");
-  res.send("Logged out.");
-});
-
-// Vulnerable GraphQL endpoint (NO CSRF PROTECTION!)
+// Vulnerable GraphQL endpoint
 app.use(
   "/graphql",
   graphqlHTTP((req) => ({
@@ -53,6 +48,5 @@ app.use(
   }))
 );
 
-app.listen(4001, () => {
-  console.log("CSRF Challenge running at http://localhost:4000");
+app.listen(PORT, () => {
 });
