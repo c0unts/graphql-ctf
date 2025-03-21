@@ -1,0 +1,8 @@
+type Query {
+    adminQuery(api_key: String!): String!
+}
+
+type Mutation {
+    makeAPIKey: String!
+    makeUserAdmin(source_api_key: String!, target_api_key: String!): String!
+}
